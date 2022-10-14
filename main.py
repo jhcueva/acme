@@ -1,3 +1,4 @@
+import sys
 from typing import Dict, List
 
 from utils import splitHourMinutes, splitTimeFrame
@@ -16,13 +17,24 @@ def read_file(file_path: str) -> List[str]:
         List[str]: Each element of the array represents a line on the data file
     """
     fileData = []
-    with open(file_path, 'r', encoding='utf-8') as inputFile:
-        for line in inputFile:
-            removeJumpLine = line.replace("\n", "")
-            trimSpaces = removeJumpLine.replace(" ", "")
-            fileData.append(trimSpaces)
 
-    return fileData
+    try:
+        with open(file_path, 'r', encoding='utf-8') as inputFile:
+            for line in inputFile:
+                removeJumpLine = line.replace("\n", "")
+                trimSpaces = removeJumpLine.replace(" ", "")
+                fileData.append(trimSpaces)
+
+        return fileData
+
+    except FileNotFoundError:
+        # print(f'Oops! No such file or directory: {sys.argv[1]}')
+        print(f'Oops! No such file or directory')
+        sys.exit(1)
+    except IsADirectoryError:
+        print(
+            f'Oops! Is a directory: {sys.argv[1]}, you have to enter a file path')
+        sys.exit(1)
 
 
 def employeesSchedule(employeesScheduleData: List[str]) -> Dict[str, str]:
@@ -82,7 +94,7 @@ def employeesCoincidedOffice(employeesCombination: List, employeesSchedule: Dict
         scheduleTwo = employeesSchedule[employeeCombination[1]]
         coincidedOffice = sameTimeFrame(scheduleOne, scheduleTwo)
         print(
-            f'{employeeCombination[0]}-{employeeCombination[1]}:{len(coincidedOffice)}')
+            f'{employeeCombination[0]}-{employeeCombination[1]}: {len(coincidedOffice)}')
 
 
 def isStartlessthanEndd(startOne: str, endOne: str, startTwo: str, endTwo: str) -> bool:
@@ -165,7 +177,10 @@ def sameTimeFrame(scheduleOne: List[str], scheduleTwo: List[str]) -> List[str]:
 
 
 if __name__ == '__main__':
-    raw_data = read_file(file_path=INPUT_FILE)
-    structured_data = employeesSchedule(raw_data)
-    combinations = employeesCombination(list(structured_data.keys()), 2)
-    results = employeesCoincidedOffice(combinations, structured_data)
+    if len(sys.argv) == 1:
+        print("You need enter the path of the .txt file")
+    else:
+        raw_data = read_file(file_path=sys.argv[1])
+        structured_data = employeesSchedule(raw_data)
+        combinations = employeesCombination(list(structured_data.keys()), 2)
+        results = employeesCoincidedOffice(combinations, structured_data)
