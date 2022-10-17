@@ -15,7 +15,7 @@ def test_wrong_file(input, capsys):
     """Test readFile when the file path is wrong"""
     with pytest.raises(SystemExit) as e:
         readFile(input)
-        
+
     out, _ = capsys.readouterr()
 
     assert e.type == SystemExit
@@ -47,23 +47,19 @@ def test_wrong_directory(input, capsys):
     "data, expected",
     [
         (
-            "RENE=MO10:15-12:00\n ASTRID=MO10:00-12:00", 
+            "RENE=MO10:15-12:00\n ASTRID=MO10:00-12:00",
             ['RENE=MO10:15-12:00', 'ASTRID=MO10:00-12:00']
         ),
         (
-            "RENE=MO10:00-12:00\n ASTRID=MO10:00-12:00\n ANDRES=MO10:00-12:00", 
+            "RENE=MO10:00-12:00\n ASTRID=MO10:00-12:00\n ANDRES=MO10:00-12:00",
             ['RENE=MO10:00-12:00', 'ASTRID=MO10:00-12:00', 'ANDRES=MO10:00-12:00']
         )
     ]
 )
 def test_read_file(data, expected, tmpdir):
     file_path = os.path.join(tmpdir, "file.txt")
-    
+
     with open(file_path, 'w') as file:
         file.write(data)
 
     assert readFile(file_path) == expected
-    
-    
-    
-    

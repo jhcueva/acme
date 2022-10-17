@@ -2,6 +2,17 @@ from typing import Tuple
 
 
 def isTimeFrameIntersection(timeFrameOne: Tuple[str, str], timeFrameTwo: Tuple[str, str]) -> bool:
+    """
+    Take the time frame of the employees and return True if they share time frame
+    and return False when not
+
+    Args:
+        timeFrameOne (Tuple[str, str]): Time frame employee One
+        timeFrameTwo (Tuple[str, str]): Time frame employee Two
+
+    Returns:
+        bool: Return True when the employees share time frame 
+    """
     timeFrameIntersection = isIntersection(
         timeFrameOne[0],
         timeFrameOne[1],
@@ -12,6 +23,23 @@ def isTimeFrameIntersection(timeFrameOne: Tuple[str, str], timeFrameTwo: Tuple[s
 
 
 def isIntersection(startOne: str, endOne: str, startTwo: str, endTwo: str) -> bool:
+    """
+    Take the start time and the end time of the employee One and the start time
+    and the end time of the employee two. 
+
+    When the start time of the employee One is less than the end time of the employee 
+    Two and when the start time of the employee Two is less than the end time of the 
+    employee One is a time frame intersection and returns True 
+
+    Args:
+        startOne (str): Start time of the employee One
+        endOne (str): End time of the employee One
+        startTwo (str): Start time of the employee Two
+        endTwo (str): End time of the employee Two
+
+    Returns:
+        bool: Returns True when the time frame of the employeeOne intersects whit the employee two
+    """
     hourStartOne, minuteStartOne = splitHourMinutes(startOne)
     hourEndOne, minuteEndOne = splitHourMinutes(endOne)
     hourStartTwo, minuteStartTwo = splitHourMinutes(startTwo)
@@ -34,9 +62,22 @@ def isIntersection(startOne: str, endOne: str, startTwo: str, endTwo: str) -> bo
         return True
     else:
         return False
-    
-    
+
+
 def isStartTimelessthanEndTime(hourStart: int, hourEnd: int, minuteStart: int, minuteEnd: int) -> bool:
+    """
+    Compares if the start time less than the end time and return true
+    if start time it's less than end time.
+
+    Args:
+        hourStart (int): Hour start
+        hourEnd (int): Hour end
+        minuteStart (int): Minute start
+        minuteEnd (int): Minute end
+
+    Returns:
+        bool: Returns True when start time is less than end time.
+    """
     if hourStart == hourEnd:
         if minuteStart <= minuteEnd:
             return True

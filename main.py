@@ -1,5 +1,5 @@
 import sys
-from typing import Dict, List, Union
+from typing import Dict, List
 
 from utils import isTimeFrameIntersection, splitTimeFrame
 
@@ -21,7 +21,7 @@ def readFile(file_path: str) -> List[str]:
             for line in inputFile:
                 removeJumpLine = line.replace("\n", "")
                 trimSpaces = removeJumpLine.replace(" ", "")
-                fileData.append(trimSpaces)            
+                fileData.append(trimSpaces)
 
         return fileData
 
@@ -31,14 +31,12 @@ def readFile(file_path: str) -> List[str]:
     except IsADirectoryError:
         print("Oops! The path you enter is a directory, you have to enter a file path")
         sys.exit(1)
-        
-        
 
-        
+
 def employeesSchedule(employeesScheduleData: List[str]) -> Dict[str, List[str]]:
     """
     Structures the data as a dictionary with the name 
-    of the employee as a key and his schedule as value 
+    of the employee as a key and schedule as value 
 
     Args:
         workersScheduleData (List[str]): Raw data
@@ -52,7 +50,7 @@ def employeesSchedule(employeesScheduleData: List[str]) -> Dict[str, List[str]]:
         employeesSchedule[employee] = schedule.split(',')
     return employeesSchedule
 
-    
+
 def employeesCombination(employees: List[str], pairingNumber: int = 2) -> List:
     """
     Compute the possible employees combination in couples 
@@ -77,11 +75,18 @@ def employeesCombination(employees: List[str], pairingNumber: int = 2) -> List:
         adjacentItems = employees[i+1:]
         for j in employeesCombination(adjacentItems, pairingNumber-1):
             possibleCombinations.append([firstItem]+j)
-    return possibleCombinations        
-        
+
+    return possibleCombinations
+
 
 def sameTimeFrame(scheduleOne: List[str], scheduleTwo: List[str]) -> List[str]:
-    """_summary_
+    """
+    Take the schedule of the employee One and the employee Two.
+    Get the list of days where both worker one and the worker two work.
+
+    Then go through the list of days they share and compute if they have been
+    in the office in the same time frame. If two employees share time frame the 
+    day is stored in sameTimeFrame list.
 
     Args:
         scheduleOne (List[str]): Schedule of the first employee
@@ -101,21 +106,34 @@ def sameTimeFrame(scheduleOne: List[str], scheduleTwo: List[str]) -> List[str]:
     for day in daysIntersection:
         timeFrameOne = splitTimeFrame(weekOne[day])
         timeFrameTwo = splitTimeFrame(weekTwo[day])
-        timeFrameIntersection = isTimeFrameIntersection(timeFrameOne, timeFrameTwo)
+        timeFrameIntersection = isTimeFrameIntersection(
+            timeFrameOne, timeFrameTwo)
 
         if timeFrameIntersection:
             sameTimeFrame.append(day)
 
     return sameTimeFrame
 
-    
+
 def employeesCoincidedOffice(employeesCombination: List, employeesSchedule: Dict[str, List[str]]):
+    """
+    Take the list of employees combination and the schedule of the employees.
+    Go thought the list of the employees combination, and print the pair of
+    employees and how often they have coincided in the office.
+
+    Args:
+        employeesCombination (List): List of pair of employees
+        employeesSchedule (Dict[str, List[str]]): Schedule of employees with employee 
+        name as key and list of the schedule as value
+    """
+
     for i in range(len(employeesCombination)):
         employeeCombination = employeesCombination[i]
         scheduleOne = employeesSchedule[employeeCombination[0]]
         scheduleTwo = employeesSchedule[employeeCombination[1]]
         coincidedOffice = sameTimeFrame(scheduleOne, scheduleTwo)
-        print(f'{employeeCombination[0]}-{employeeCombination[1]}: {len(coincidedOffice)}')
+        print(
+            f'{employeeCombination[0]}-{employeeCombination[1]}: {len(coincidedOffice)}')
 
 
 def run(args):
@@ -124,9 +142,10 @@ def run(args):
     else:
         raw_data = readFile(file_path=args[1])
         structured_data = employeesSchedule(raw_data)
-        combinations = employeesCombination(list(structured_data.keys()), 2)
+        combinations = employeesCombination(
+            sorted(list(structured_data.keys())), 2)
         employeesCoincidedOffice(combinations, structured_data)
 
 
-if __name__ == '__main__':        
+if __name__ == '__main__':
     run(sys.argv)
