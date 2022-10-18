@@ -55,16 +55,38 @@ When the code is executed ```python3 main.py <TXT PATH FILE>``` a series of step
     Output:
   ```[["name1", "name2"], ["name1", "name3"], ["name2", "name3"]]```
   
-5. The function **sameTimeFrame** take the schedules of two employees and structure each schedule in a dictionary using the day as the key and the schedule as the value. Take the days that each of the employees works and create a list with the days that the two workers coincide.
+4. The function **sameTimeFrame** take the schedules of two employees and structure each schedule in a dictionary using the day as the key and the schedule as the value. Then take the days that each of the employees works, compare them and create a list with the days that the two workers coincide.
+
+   Input work days employee one: ```["MO", "TH", "FR", "SA"]```
+   
+   Input work days employee two: ```["WE", "TH", "FR", "SU"]```
+   
+   Output: ```["TH", "FR"]```
 
 <div align="center">
   <a href="url"><img src="https://user-images.githubusercontent.com/15198470/196300945-1573dac8-6f34-48da-b70d-0114d64bf7d5.jpg" width="360" height="280" class="center" /></a>
 </div>
 
 
-  Iterates over the days on which the two employees coincide, read the schedule of the day and divide it into check-in and check-out times.
+  Then iterates over the days on which the two employees coincide, read the schedule of the day and divide it into check-in and check-out times.
+  
+  To fing out if two employees have been in the office within the same time frame compares employee one's check-in time with employee two's check-out time and employee two's check-in time with employee one's check-out time.
+  If employee one's check-in time is less than employee two's check-out time and employee two's check-in time is less than employee one's check-out time the two employees have been in the office within the same time frame. Otherwise they haven't been.
+  
+<p align="center">
+    employeeOneCheckIn < employeeTwoCheckOut <b>and</b> employeeTwoCheckIn < employeeOneCheckOut 
+</p>
+  
+<div align="center">
+    <a href="url"><img src="https://user-images.githubusercontent.com/15198470/196445823-d4efd2e2-a6b0-41c2-b223-81e278557048.jpg" width="1060"               height="260"   class="center" /></a>
+    <a href="url"><img src="https://user-images.githubusercontent.com/15198470/196445840-935dfe6d-b007-463a-8afe-c92da1ad0e6f.jpg" width="480"               height="220"   class="center" /></a>
+</div>
 
-1. Step 5
+   
+  Finally it stores the days that both have been in the office within the same time frame in an array
+
+
+5. The function **employeesCoincidedOffice** iterates over each of the possible combinations of employees, takes their schedules and passes them as arguments to the **sameTimeFrame** function, which returns an array with the days on which the employees have been in the office within the same time frame. Finally print the pairs of employees in alphabetical order and how often they have coincided in the office
 
 ## Run
 
@@ -74,6 +96,10 @@ When the code is executed ```python3 main.py <TXT PATH FILE>``` a series of step
 
     python3 main.py <TXT PATH FILE>
 
+  To run tests first install dependencies
+  
+    pip install -r requirements.txt
+    
   Run tests
 
     pytest -v
