@@ -1,4 +1,4 @@
-# Technical Test
+# ACME
 
 The company ACME offers their employees the flexibility to work the hours they want. But due to some external circumstances they need to know what employees have been at the office within the same time frame
 
@@ -16,6 +16,13 @@ The goal of this exercise is to output a table containing pairs of employees and
 | **Output** 	| RENE=MO10:15-12:00,TU10:00-12:00,TH13:00-13:15,SA14:00-18:00,SU20:00-21:00<br>ASTRID=MO10:00-12:00,TH12:00-14:00,SU20:00-21:00 	| RENE-ASTRID: 3 	|  	
 
 ## Solution
+
+<details><summary>Architecture</summary>
+    
+I used C4 Model for architecture modeling.
+
+![Untitled](https://user-images.githubusercontent.com/15198470/196510998-a3b62d25-4835-4ac8-ac93-a03c9ef44bca.png)
+</details>
 
 My solution is composed of five main functions:
 - **readFile:** Read the file indicated in the path, remove line breaks and whitespace. Store each line of the file in an array
@@ -67,10 +74,9 @@ When the code is executed ```python3 main.py <TXT PATH FILE>``` a series of step
   <a href="url"><img src="https://user-images.githubusercontent.com/15198470/196300945-1573dac8-6f34-48da-b70d-0114d64bf7d5.jpg" width="360" height="280" class="center" /></a>
 </div>
 
-
   Then iterates over the days on which the two employees coincide, read the schedule of the day and divide it into check-in and check-out times.
   
-  To fing out if two employees have been in the office within the same time frame compares employee one's check-in time with employee two's check-out time and employee two's check-in time with employee one's check-out time.
+  To find out if two employees have been in the office within the same time frame compares employee one's check-in time with employee two's check-out time and employee two's check-in time with employee one's check-out time.
   If employee one's check-in time is less than employee two's check-out time and employee two's check-in time is less than employee one's check-out time the two employees have been in the office within the same time frame. Otherwise they haven't been.
   
 <p align="center">
