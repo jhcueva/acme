@@ -5,7 +5,6 @@ from main import run
 
 
 @pytest.mark.parametrize(
-    """Test the main program with different inputs"""
     "data, expected",
     [
         (
@@ -35,6 +34,7 @@ from main import run
     ]
 )
 def test_main(data, expected, tmpdir, capsys):
+    """Test the main program with different inputs"""
     file_path = os.path.join(tmpdir, "file.txt")
 
     with open(file_path, 'w') as file:
