@@ -45,10 +45,14 @@ def employeesSchedule(employeesScheduleData: List[str]) -> Dict[str, List[str]]:
         Dict[str, List[str]]: Data structured as a dictionary with name of the employee as key and the schedule as the value
     """
     employeesSchedule = {}
-    for schedule in employeesScheduleData:
-        employee, schedule = schedule.split('=')
-        employeesSchedule[employee] = schedule.split(',')
-    return employeesSchedule
+    try:
+        for schedule in employeesScheduleData:
+            employee, schedule = schedule.split('=')
+            employeesSchedule[employee] = schedule.split(',')
+        return employeesSchedule
+    except ValueError:
+        print("The file contains blank lines or doesn't follow the structure name=schedule,schedule")
+        sys.exit(1)
 
 
 def employeesCombination(employees: List[str], pairingNumber: int = 2) -> List:
@@ -127,8 +131,7 @@ def employeesCoincidedOffice(employeesCombination: List, employeesSchedule: Dict
         name as key and list of the schedule as value
     """
 
-    for i in range(len(employeesCombination)):
-        employeeCombination = employeesCombination[i]
+    for employeeCombination in employeesCombination:
         scheduleOne = employeesSchedule[employeeCombination[0]]
         scheduleTwo = employeesSchedule[employeeCombination[1]]
         coincidedOffice = sameTimeFrame(scheduleOne, scheduleTwo)
@@ -143,7 +146,9 @@ def run(args):
         raw_data = readFile(file_path=args[1])
         structured_data = employeesSchedule(raw_data)
         combinations = employeesCombination(
-            sorted(list(structured_data.keys())), 2)
+            sorted(list(structured_data.keys())),
+            2
+        )
         employeesCoincidedOffice(combinations, structured_data)
 
 

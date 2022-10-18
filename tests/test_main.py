@@ -5,7 +5,7 @@ from main import run
 
 
 @pytest.mark.parametrize(
-    "data, expected",
+    "inputData, expectedOutput",
     [
         (
             "RENE=MO10:15-12:00,TU10:00-12:00,TH13:00-13:15,SA14:00-18:00,SU20:00-21:00\n ASTRID=MO10:00-12:00,TH12:00-14:00,SU20:00-21:00",
@@ -24,6 +24,10 @@ from main import run
             "ASTRID-RENE: 0\n"
         ),
         (
+            "RENE=MO10:00-12:00\nASTRID=MO09:00-10:00",
+            "ASTRID-RENE: 0\n"
+        ),
+        (
             "ASTRID=TH12:00-14:00,SU20:00-21:00",
             ""
         ),
@@ -33,15 +37,15 @@ from main import run
         )
     ]
 )
-def test_main(data, expected, tmpdir, capsys):
+def test_main(inputData, expectedOutput, tmpdir, capsys):
     """Test the main program with different inputs"""
     file_path = os.path.join(tmpdir, "file.txt")
 
     with open(file_path, 'w') as file:
-        file.write(data)
+        file.write(inputData)
 
     run([None, file_path])
 
     out, _ = capsys.readouterr()
 
-    assert out == expected
+    assert out == expectedOutput

@@ -44,7 +44,7 @@ def test_wrong_directory(input, capsys):
 
 
 @pytest.mark.parametrize(
-    "data, expected",
+    "inputData, expectedOutput",
     [
         (
             "RENE=MO10:15-12:00\n ASTRID=MO10:00-12:00",
@@ -56,10 +56,10 @@ def test_wrong_directory(input, capsys):
         )
     ]
 )
-def test_read_file(data, expected, tmpdir):
+def test_read_file(inputData, expectedOutput, tmpdir):
     file_path = os.path.join(tmpdir, "file.txt")
 
     with open(file_path, 'w') as file:
-        file.write(data)
+        file.write(inputData)
 
-    assert readFile(file_path) == expected
+    assert readFile(file_path) == expectedOutput
