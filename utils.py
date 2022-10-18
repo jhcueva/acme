@@ -79,7 +79,7 @@ def isStartTimelessthanEndTime(hourStart: int, hourEnd: int, minuteStart: int, m
         bool: Returns True when start time is less than end time.
     """
     if hourStart == hourEnd:
-        if minuteStart <= minuteEnd:
+        if minuteStart < minuteEnd:
             return True
         else:
             return False
