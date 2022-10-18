@@ -14,14 +14,9 @@ def readFile(file_path: str) -> List[str]:
     Returns:
         List[str]: Each element of the array represents a line on the data file
     """
-    fileData = []
-
     try:
         with open(file_path, 'r', encoding='utf-8') as inputFile:
-            for line in inputFile:
-                removeJumpLine = line.replace("\n", "")
-                trimSpaces = removeJumpLine.replace(" ", "")
-                fileData.append(trimSpaces)
+            fileData = [line.strip() for line in inputFile]
 
         return fileData
 
@@ -44,12 +39,14 @@ def employeesSchedule(employeesScheduleData: List[str]) -> Dict[str, List[str]]:
     Returns:
         Dict[str, List[str]]: Data structured as a dictionary with name of the employee as key and the schedule as the value
     """
-    employeesSchedule = {}
     try:
-        for schedule in employeesScheduleData:
-            employee, schedule = schedule.split('=')
-            employeesSchedule[employee] = schedule.split(',')
+        employeesSchedule = {
+            schedule.split('=')[0]: schedule.split('=')[1].split(',')
+            for schedule in employeesScheduleData
+        }
+
         return employeesSchedule
+
     except ValueError:
         print("The file contains blank lines or doesn't follow the structure name=schedule,schedule")
         sys.exit(1)
